@@ -3,6 +3,8 @@ const username = "MorganEJLA";
 const repoList = document.querySelector(".repo-list");
 const repoClass = document.querySelector(".repos");
 const repoData = document.querySelector(".repo-data");
+const backButton = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 
 
@@ -47,6 +49,7 @@ const gitRepos = async function (){
 gitRepos();
 
 const displayRepo = function (repos){
+    filterInput.classList.remove("hide");
     for (const repo of repos) {
         const repoItem = document.createElement("li");
         repoItem.classList.add("repo");
@@ -94,6 +97,33 @@ const displayRepoInfo = function (repoInfo, languages){
     <p>Languages: ${languages.join(", ")}</p>
     <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
     repoData.append(div);
+    // backButton.classList.remove("hide");
 
 
 };
+
+
+backButton.addEventListener("click",function(){
+    repoClass.classList.remove("hide");
+    repoData.classList.add("hide");
+    backButton.classList.add("hide");
+
+});
+
+filterInput.addEventListener("input", function(e){
+    const searchText = e.target.value;
+    const repos = document.querySelectorAll(".repo");
+    const searchLowerCase  = searchText.toLowerCase();
+
+    for (const repo of repos) {
+        const lowerCaseVal = repo.innerText.toLowerCase();
+        if (lowerCaseVal.includes(searchLowerCase)){
+        repo.classList.remove("hide");
+
+        } else {
+        repo.classList.add("hide");
+      }
+
+    }
+
+});
